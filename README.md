@@ -1,8 +1,12 @@
+## iOder
+-An online ordering system
+-course project of KTH ID2216
+
 ## React + TypeScript + Vite + Ant Design + Zustand
 
-- React 移动开发模板
+- use a React mobile template from https://github.com/xmllein/react-mobile
 
-## 项目集成
+##  Project tech stack
 
 - [x] react-router-dom 6.x
 - [x] antd-mobile 5.x
@@ -12,14 +16,14 @@
 - [x] postcss-pxtorem
 - [x] vite-plugin-mock
 - [x] mockjs
-- [x] husky 提交规范
+- [x] husky 
 
-## 参考资料
+## References
 
-- [React 官网](https://react.dev/)
+- [React](https://react.dev/)
 - [React 中文文档](https://react.docschina.org/)
 - [React Router](https://reactrouter.com/)
 - [antd-mobile](https://mobile.ant.design/zh/guide/quick-start/)
-- [zustand 文档](https://docs.pmnd.rs/zustand/getting-started/introduction)
-- [zustand 中文文档](https://awesomedevin.github.io/zustand-vue/)
-- [husky 官网](https://typicode.github.io/husky/getting-started.html)
+- [zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+
+

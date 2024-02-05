@@ -1,0 +1,64 @@
+{
+  "name": "react-mobile",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --mode development --open --host",
+    "test": "vite --mode test --open --host",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "commit:comment": "引导设置规范化的提交信息",
+    "commit": "git-cz",
+    "preview": "vite preview",
+    "prepare": "husky install"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "dependencies": {
+    "antd-mobile": "^5.32.4",
+    "axios": "^1.5.1",
+    "normalize.css": "^8.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
+    "zustand": "^4.4.3"
+  },
+  "devDependencies": {
+    "mockjs": "^1.1.0",
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "add": "^2.0.6",
+    "commitizen": "^4.3.0",
+    "commitlint-config-cz": "^0.13.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-customizable": "^7.0.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "husky": "^8.0.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-image-set-polyfill": "^1.0.0",
+    "postcss-normalize": "^10.0.1",
+    "postcss-preset-env": "^9.2.0",
+    "postcss-pxtorem": "^6.0.0",
+    "prettier": "^3.0.3",
+    "rollup-plugin-visualizer": "^5.9.2",
+    "sass": "^1.69.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vite-plugin-imp": "^2.4.0",
+    "vite-plugin-mock": "^3.0.0",
+    "yarn": "^1.22.19"
+  }
+}

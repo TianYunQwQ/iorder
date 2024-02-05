@@ -1,0 +1,14 @@
+.background-container {
+    background-image: url("../../../public/navigationPage1.png"); 
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white; 
+  }
+.center-content {
+   text-align: center;
+}

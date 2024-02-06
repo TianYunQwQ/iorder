@@ -1,10 +1,9 @@
-import { NavBar } from 'antd-mobile'
-import Bottom from '@/Buttom'
 import styles from './layout.module.scss'
 import { useStore } from '@/store'
 import { Outlet } from 'react-router-dom'
+import ResButtom from '@/ResButtom'
 
-function Layout() {
+function LayoutRes() {
   const { userInfo } = useStore()
   return (
     <>
@@ -16,11 +15,11 @@ function Layout() {
           <Outlet />
         </div>
         <div className={styles.bottom}>
-          <Bottom />
+          <ResButtom />
         </div>
       </div>
     </>
   )
 }
 
-export default Layout
+export default LayoutRes

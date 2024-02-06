@@ -11,16 +11,30 @@ function PersonalCenter() {
   const navigate = useNavigate()
   const { updateUserInfo, updateToken, token, userInfo } = useStore()
 
-  // 登录
   const onSubmit = async () => {
-    const values = form.getFieldsValue()
-    // 请求接口
-    const result = await api.login(values)
-    storage.setItem('token', result.token)
-    // 更新状态
-    updateUserInfo(result)
-    updateToken(result.token)
-  }
+    try {
+      const values = form.getFieldsValue();
+      const result = await api.login(values);
+      storage.setItem('token', result.token);
+      updateUserInfo(result);
+      updateToken(result.token);
+      navigate('/me'); 
+    } catch (error) {
+      console.error('Login fail!', error);
+    }
+  };
+  const onSubmitMerchant = async () => {
+    try {
+      const values = form.getFieldsValue();
+      const result = await api.login(values);
+      storage.setItem('token', result.token);
+      updateUserInfo(result);
+      updateToken(result.token);
+      navigate('/restaurant/me'); 
+    } catch (error) {
+      console.error('Login fail!', error);
+    }
+  };
 
   // 退出
   const onLogout = () => {
@@ -84,7 +98,7 @@ function PersonalCenter() {
           layout="horizontal"
           mode='card'
           footer={
-            <Button
+            <><Button
               block
               loading="auto"
               type="submit"
@@ -92,9 +106,23 @@ function PersonalCenter() {
               shape='rounded'
               onClick={onSubmit}
               size="small"
+              style={{ margin: '20px 0'}}
             >
-              Submit
-            </Button>
+              Login as customer
+            </Button><Button
+              block
+              loading="auto"
+              type="submit"
+              color="default"
+              shape='rounded'
+              onClick={onSubmitMerchant}
+              size="small"
+              fill='outline'
+              style={{ margin: '8px 0'}}
+
+            >
+              Login as merchant
+              </Button></>
           }
         >
           <Form.Header />

@@ -1,4 +1,4 @@
-import { User, History, HistoryStore } from 'types/index'
+import { User, History, HistoryStore, Menu, MenuStore, OrderStore } from 'types/index'
 import { create } from 'zustand'
 
 export const useStore = create<{
@@ -52,4 +52,13 @@ export const useHistoryStore = create<HistoryStore>((set) => ({
   historyList:[],
   setHistory:(store:History[]) => set({historyList:store})
 }))
-  
+
+export const useMenuStore = create<MenuStore>((set) => ({
+  menuList:[],
+  setMenu:(store:Menu[]) => set({menuList:store})
+}))
+
+export const useOrderList = create<OrderStore>((set) => ({
+  orderList:[],
+  setOrderList:(store:Menu[]) => set({orderList:store})
+}))

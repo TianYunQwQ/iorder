@@ -2,7 +2,6 @@ import { FC } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   AppOutline,
-  MessageOutline,
   UnorderedListOutline,
   UserOutline,
 } from 'antd-mobile-icons'
@@ -18,17 +17,17 @@ const Bottom: FC = () => {
 
   const tabs = [
     {
-      key: '/home',
-      title: 'Home',
+      key: './resorder',
+      title: 'Order',
       icon: <AppOutline />,
     },
     {
-      key: '/todo',
+      key: './resmenu',
       title: 'Menu',
       icon: <UnorderedListOutline />,
     },
     {
-      key: '/me',
+      key: './me',
       title: 'Profile',
       icon: <UserOutline />,
     },

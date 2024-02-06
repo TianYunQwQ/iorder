@@ -2,8 +2,13 @@ import React, { useEffect } from 'react'
 import api from '@/api'
 import {useHistoryStore} from '@/store'
 import { Image, List } from 'antd-mobile'
+import { useNavigate } from 'react-router-dom'
 
 function Home() {
+  const navigate = useNavigate()
+  const Click = () => {
+    navigate('/todo')
+  }
   const {historyList, setHistory} = useHistoryStore()
   useEffect(() => {
     const getData = async() => {
@@ -11,7 +16,7 @@ function Home() {
         const response = await api.getHistory();
         setHistory(response.list);
       } catch (error) {
-        console.error('Error fetching history stories:', error)
+        console.error('Error fetching history:', error)
       }
     }
     getData()
@@ -32,6 +37,7 @@ function Home() {
           />
         }
         description={users.orderTime}
+        onClick={Click}
       >
         {users.name}
       </List.Item>

@@ -1,44 +1,137 @@
 import { AutoCenter, Button } from "antd-mobile"
 import { Input,Form,Space } from "antd-mobile"
-
+import React, { useEffect, useState } from 'react'
+import api from '@/api'
+import { Link } from 'react-router-dom';
+import { Image, List } from 'antd-mobile'
+import { Menu } from 'types/menu'
+import { useMenuStore, useOrderList } from "@/store"
 function Todo() {
-  const goon = () => {
-    window.location.href='http://localhost:3000/profile';
+  const {menuList, setMenu} = useMenuStore()
+  const {orderList, setOrderList} = useOrderList()
+  useEffect(() => {
+    const getMenuData = async() => {
+      try {
+        const response = await api.getMenu()
+        setMenu(response.menu)
+        setOrderList(response.menu)
+      } catch (error) {
+        console.error('Error fetching menu:', error)
+      }
+    }
+    getMenuData()
+  },[setMenu])
+
+  // return(
+  //   <List style={{ width: '100%' }} mode='card'>
+  //   {menuList.map(users => (
+  //     <List.Item
+  //       key={users.name}
+  //       prefix={
+  //         <Image
+  //           src={users.src}
+  //           style={{ borderRadius: 20 }}
+  //           fit='cover'
+  //           width={80}
+  //           height={80}
+  //         />
+  //       }
+  //       description={users.ingredients}
+  //       extra = {users.price}
+  //     >
+  //       {users.name}
+  //     </List.Item>
+  //   ))}
+  // </List>
+  // )
+  const [quantities, setQuantities] = useState(menuList.map(() => 0));
+
+  const handleIncrement = (index: number) => {
+    const newQuantities = [...quantities];
+    newQuantities[index]++;
+    setQuantities(newQuantities);
   };
 
-  const goback = () => {
-    window.location.href='http://localhost:3000/';
+  const handleDecrement = (index: number) => {
+    const newQuantities = [...quantities];
+    if (newQuantities[index] > 0) {
+      newQuantities[index]--;
+      setQuantities(newQuantities);
+    }
   };
-  return (<div>
-<Space direction="vertical" style={{ '--gap': '24px' , display: 'flex'}}>
-          <Button color='default' fill='outline'onClick={goback}>
-          back
-          </Button>
-          <caption style={{ fontSize: '28px', fontFamily: 'Montserrat, sans-serif'}}><AutoCenter style={{ whiteSpace: 'nowrap' }}>Create account</AutoCenter></caption>
-          <div>
-            <AutoCenter style={{ fontSize: '18px', fontFamily: 'Montserrat, sans-serif', color:'gray'}} >Please enter your username, e-mail and passowrd to sign up</AutoCenter>  
-            <Button color="warning" fill='none' style={{ fontSize: '14px', fontFamily: 'Montserrat, sans-serif'}}>Already have an account?</Button>
-          </div>
-        <div>
-          <Form layout='vertical'>
-          <Form.Item label='username' name='username'>
-            <Input placeholder='input username here' clearable />
-          </Form.Item>
-          <Form.Item label='e-mail' name='email'>
-            <Input placeholder='input e-mail address here' clearable type='e-mail' />
-          </Form.Item>
-          <Form.Item label=' password' name='password'>
-            <Input placeholder='input password here' clearable type='password' />
-          </Form.Item>
-        </Form>
-    </div>
-  <Button className="button" color='warning' size='middle' onClick={goon}>
-          Sign up
-        </Button>
-</Space>
 
-        
-  </div>)
+  const getTotalPrice = (): number => {
+    let totalPrice = 0;
+    menuList.forEach((image, index) => {
+      totalPrice += quantities[index] * image.price;
+    });
+    return totalPrice;
+  };
+
+  const isOrderDisabled = quantities.every(qty => qty === 0);
+
+  return (
+      <div style={{ position: 'relative', minHeight: '90vh' }}>
+        <em>
+          <strong>
+            <h1>Menu</h1>
+          </strong>
+        </em>
+
+        {menuList.map((image, index) => (
+            <div key={index} className="menu-item" style={{ display: 'flex', alignItems: 'center' }}>
+              <img
+                  src={image.src}
+                  title={image.name}
+                  onTouchStart={() => alert(image.name)}
+                  style={{ width: '150px', marginRight: '10px', borderRadius: '20px' }}
+              />
+              <div>
+                <p>
+                  <em>
+                    <strong>{image.name}</strong>
+                  </em>
+                </p>
+                <p style={{ maxWidth: '200px' /* Set your desired maximum width here */ }}>
+                  {image.ingredients}
+                </p>
+                <p>
+                  {image.price.toFixed(2)}kr<br />
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <button onClick={() => handleDecrement(index)} style={{ marginRight: '5px' }}>-</button>
+                    <input
+                        type="number"
+                        value={quantities[index]}
+                        readOnly
+                        style={{ width: '30px', textAlign: 'center', marginRight: '5px' }}
+                    />
+                    <button onClick={() => handleIncrement(index)}>+</button>
+                  </div>
+                </p>
+              </div>
+            </div>
+        ))}
+
+        <div style={{ marginTop: '20px', position: 'absolute', bottom: '70px', right: '20px' }}>
+          <strong>Total : {getTotalPrice().toFixed(2)} kr</strong>
+        </div>
+
+        <div style={{ marginTop: '20px', position: 'absolute', bottom: '20px', right: '20px' }}>
+          {/* Disable the button when all quantities are 0 */}
+          {isOrderDisabled ? (
+              <button disabled style={{ borderRadius: '10px', backgroundColor: 'lightgray', padding: '10px' }}>
+                iOrder
+              </button>
+          ) : (
+              <Link to="/Detail" state={{ totalPrice: getTotalPrice(), quantities: [...quantities] }}>
+                <button style={{ borderRadius: '10px', backgroundColor: 'orange', padding: '10px' }}>
+                  iOrder
+                </button>
+              </Link>
+          )}
+        </div>
+      </div>
+  );
 }
 
 export default Todo

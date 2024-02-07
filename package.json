@@ -2,6 +2,7 @@
   "name": "react-mobile",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://TianYunQwQ.github.io/iorder",
   "scripts": {
     "dev": "vite --mode development --open --host",
     "test": "vite --mode test --open --host",
@@ -10,7 +11,9 @@
     "commit:comment": "引导设置规范化的提交信息",
     "commit": "git-cz",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build" 
   },
   "config": {
     "commitizen": {
@@ -20,6 +23,7 @@
   "dependencies": {
     "antd-mobile": "^5.32.4",
     "axios": "^1.5.1",
+    "gh-pages": "^6.1.1",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -27,7 +31,6 @@
     "zustand": "^4.4.3"
   },
   "devDependencies": {
-    "mockjs": "^1.1.0",
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
     "@types/react": "^18.2.15",
@@ -47,6 +50,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "husky": "^8.0.0",
+    "mockjs": "^1.1.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-image-set-polyfill": "^1.0.0",
     "postcss-normalize": "^10.0.1",

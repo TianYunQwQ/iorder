@@ -8,7 +8,7 @@ const ResOrder: React.FC = () => {
     //   { id: 2,  name: 'Combo Burger', ingredients: 'Shortbread, chocolate turtle cookies, and red velvet.', price: 100 },
     //   { id: 3,  name: 'Combo Sandwich', ingredients: 'Shortbread, chocolate turtle cookies, and red velvet.', price: 100 }
     // ];
-    const {menuList, setMenu} = useMenuStore()
+    const { setMenu} = useMenuStore()
     const {orderList, setOrderList} = useOrderList()
     useEffect(() => {
         const getMenuData = async() => {

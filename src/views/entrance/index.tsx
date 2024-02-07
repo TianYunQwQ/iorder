@@ -1,4 +1,4 @@
-import React from 'react'
+
 import './background.scss'
 import { Button } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom'

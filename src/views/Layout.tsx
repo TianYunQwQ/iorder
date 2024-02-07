@@ -1,11 +1,10 @@
-import { NavBar } from 'antd-mobile'
+
 import Bottom from '@/Buttom'
 import styles from './layout.module.scss'
-import { useStore } from '@/store'
 import { Outlet } from 'react-router-dom'
 
 function Layout() {
-  const { userInfo } = useStore()
+  // const { userInfo } = useStore()
   return (
     <>
       <div className={styles.app}>

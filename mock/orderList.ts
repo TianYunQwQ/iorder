@@ -20,7 +20,7 @@ const list = [
         logo: 'https://p.sda1.dev/15/582e6732d623e33813328f5a1adcf3bc/costa-coffee-logo@logotyp.us.png'
     },
   ];
-  export default [
+  export default ()=>{ return [
     {
       url: '/api/history',
       type: 'get',
@@ -34,6 +34,6 @@ const list = [
         };
       }
     }
-  ];
+  ];}
   
   

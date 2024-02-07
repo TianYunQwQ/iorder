@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import api from '@/api'
 import {useHistoryStore} from '@/store'
 import { Image, List } from 'antd-mobile'

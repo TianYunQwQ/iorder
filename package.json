@@ -2,7 +2,6 @@
   "name": "react-mobile",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://TianYunQwQ.github.io/iorder",
   "scripts": {
     "dev": "vite --mode development --open --host",
     "test": "vite --mode test --open --host",
@@ -11,9 +10,7 @@
     "commit:comment": "引导设置规范化的提交信息",
     "commit": "git-cz",
     "preview": "vite preview",
-    "prepare": "husky install",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build" 
+    "prepare": "husky install"
   },
   "config": {
     "commitizen": {

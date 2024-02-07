@@ -42,9 +42,9 @@ function Login() {
     updateToken('')
   }
 
-  const createAccount = () => {
-    navigate('/account')
-  }
+  // const createAccount = () => {
+  //   navigate('/account')
+  // }
 
   return (
     <>

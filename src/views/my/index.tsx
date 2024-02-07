@@ -4,7 +4,7 @@ import storage from '@/utils/storage'
 import { useStore } from '@/store'
 import { User } from 'types/index'
 import { useNavigate } from 'react-router-dom';
-import Profile from '@/components/ProfileEdit'
+// import Profile from '@/components/ProfileEdit'
 
 function PersonalCenter() {
   const [form] = Form.useForm()

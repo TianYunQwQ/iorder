@@ -1,10 +1,9 @@
 import styles from './layout.module.scss'
-import { useStore } from '@/store'
 import { Outlet } from 'react-router-dom'
 import ResButtom from '@/ResButtom'
 
 function LayoutRes() {
-  const { userInfo } = useStore()
+//   const { userInfo } = useStore()
   return (
     <>
       <div className={styles.app}>

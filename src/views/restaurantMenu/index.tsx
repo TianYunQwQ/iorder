@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const ResMenu: React.FC = () => {
     const {menuList, setMenu} = useMenuStore()
-    const {orderList, setOrderList} = useOrderList()
+    const { setOrderList} = useOrderList()
     useEffect(() => {
         const getMenuData = async() => {
         try {

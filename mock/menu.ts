@@ -18,7 +18,7 @@ const menu = [
       count: 0 
     }
   ]
-  export default [
+  export default () => { return[
     {
       url: '/api/menu',
       type: 'get',
@@ -32,5 +32,5 @@ const menu = [
         };
       }
     }
-  ];
+  ];}
 

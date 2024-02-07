@@ -2,9 +2,9 @@ import { AutoCenter, Button } from "antd-mobile"
 import { Input,Form,Space,Radio } from "antd-mobile"
 import { useNavigate } from "react-router-dom";
 function Profile() {
-  const goon = () => {
-    window.location.href='http://localhost:3000/pwdchange';
-  };
+  // const goon = () => {
+  //   window.location.href='http://localhost:3000/pwdchange';
+  // };
 
   const navigate = useNavigate();
   const goback = () => {

@@ -2,7 +2,6 @@ import { FC } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   AppOutline,
-  MessageOutline,
   UnorderedListOutline,
   UserOutline,
 } from 'antd-mobile-icons'

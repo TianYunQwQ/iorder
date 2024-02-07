@@ -1,14 +1,12 @@
-import { AutoCenter, Button } from "antd-mobile"
-import { Input,Form,Space } from "antd-mobile"
-import React, { useEffect, useState } from 'react'
+
+import  { useEffect, useState } from 'react'
 import api from '@/api'
 import { Link } from 'react-router-dom';
-import { Image, List } from 'antd-mobile'
-import { Menu } from 'types/menu'
+
 import { useMenuStore, useOrderList } from "@/store"
 function Todo() {
   const {menuList, setMenu} = useMenuStore()
-  const {orderList, setOrderList} = useOrderList()
+  const { setOrderList} = useOrderList()
   useEffect(() => {
     const getMenuData = async() => {
       try {

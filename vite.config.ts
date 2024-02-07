@@ -37,7 +37,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  base:'/iorder/',
+  // base:'/iorder/',
   build: {
     chunkSizeWarningLimit: 500,
     rollupOptions: {

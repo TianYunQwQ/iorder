@@ -2,6 +2,6 @@ import request from '@/utils/request.js';
 
 export const getMenu = () =>
   request({
-    url: '/menu',
+    url: 'https://yapi.pro/mock/252699/api/menu',
     method: 'get'
   });

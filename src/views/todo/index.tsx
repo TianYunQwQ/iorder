@@ -91,7 +91,7 @@ function Todo() {
                   </em>
                 </p>
                 <p style={{ maxWidth: '200px' /* Set your desired maximum width here */ }}>
-                  {image.ingredients}
+                  {image.description}
                 </p>
                 <p>
                   {image.price.toFixed(2)}kr<br />

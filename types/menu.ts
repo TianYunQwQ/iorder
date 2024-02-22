@@ -1,9 +1,9 @@
 export interface Menu {
     src: string
     name: string
-    ingredients: string
+    description: string
     price: number
-    count: number
+    vegen: boolean
 }
 
 export interface MenuStore {

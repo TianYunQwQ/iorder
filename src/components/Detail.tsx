@@ -34,7 +34,7 @@ function Detail() {
                                 </em>
                             </p>
                             <p style={{maxWidth: '500px'}}>
-                                {image.ingredients}
+                                {image.description}
                             </p>
                             <p>
                                 {image.price.toFixed(2)}kr<br/>

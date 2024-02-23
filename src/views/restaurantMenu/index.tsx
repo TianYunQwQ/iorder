@@ -1,7 +1,7 @@
 import api from "@/api";
 import { useMenuStore } from "@/store";
 import { useEffect } from "react";
-import { Image, List, Button, Dialog } from 'antd-mobile'
+import { Image, List, Button } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom'
 
 const ResMenu: React.FC = () => {

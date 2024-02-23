@@ -1,7 +1,5 @@
 import api from "@/api";
-import { useMenuStore, useOrderList } from "@/store";
-import { Image, List, Button, Dialog } from 'antd-mobile'
-import orderList from "mock/orderList";
+import { List, Button, Dialog } from 'antd-mobile'
 import React, { useState, useEffect } from 'react'
 import { Orderlist } from "types/index"
 
@@ -52,7 +50,6 @@ const ResOrder: React.FC = () => {
       {order.map(orderItem => (
         <List.Item
           key={orderItem.key}
-          // onClick={() => changeState(orderItem)} // Pass order item to changeState function
           prefix={<span style={{ color: 'orange' }}>Table: {orderItem.tableNum}</span>}
           description={orderItem.note}
           extra={

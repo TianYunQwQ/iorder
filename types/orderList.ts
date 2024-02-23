@@ -3,4 +3,6 @@ export interface Orderlist {
     tableNum:string
     note:string
     quantity:number
+    key:string
+    state:string
   }

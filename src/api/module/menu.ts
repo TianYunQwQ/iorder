@@ -15,3 +15,4 @@ export const postMenu = (values: any) => axios.post(
     },
   }
 );
+export const deleteMenu = (id:number) => axios.delete(`https://my-json-server.typicode.com/TianYunQwQ/JSONPlaceholder/posts/${id}`);

@@ -1,4 +1,5 @@
 export interface Menu {
+    id:number
     src: string
     name: string
     description: string

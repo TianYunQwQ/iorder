@@ -125,9 +125,9 @@ const Router: React.FC = React.memo(() => {
       path: 'resorder',
       element:<ResOrder />
     },
-    
+
     {
-      path: 'addmenu',
+      path: 'addmenu/:id',
       element:<AddMenu/>
     }
 

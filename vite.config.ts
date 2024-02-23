@@ -29,13 +29,19 @@ export default defineConfig({
       ],
     }),
     viteMockServe({
-      mockPath: 'mock',
-      enable: true,
-      logger: true,
+    mockPath: 'mock',
+    enable: true,
+    logger: true,
     }),
   ],
   server: {
     port: 3000,
+    proxy: {
+      "/api": {
+        target: "https://yapi.pro/mock/252699", // 目标地址
+        changeOrigin: true,            // 是否换源
+      },
+    },
   },
   // base:'/iorder/',
   build: {

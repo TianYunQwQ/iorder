@@ -11,13 +11,13 @@ interface EnvConfig {
 
 const EnvConfig = {
   development: {
-    baseUrl: 'http://localhost:3000/api',
+    baseUrl: 'http://localhost:3000',
   },
   test: {
     baseUrl: '',
   },
   production: {
-    baseUrl: '/api',
+    baseUrl: '',
   },
 } as EnvConfig
 

@@ -1,82 +1,74 @@
 import api from "@/api";
-import { useMenuStore, useOrderList } from "@/store";
+import { useMenuStore } from "@/store";
 import { useEffect } from "react";
+import { Image, List, Button } from 'antd-mobile'
+import { useNavigate } from 'react-router-dom'
 
 const ResMenu: React.FC = () => {
     const {menuList, setMenu} = useMenuStore()
-    const { setOrderList} = useOrderList()
+    const navigate = useNavigate()
+    const ChangeMenu = (id:number) => {
+      navigate(`/addmenu/${id}`)
+    }
+    const DeleteMenu = async (id: number) => {
+      try {
+        const response = await api.deleteMenu(id)
+        console.log('Delete successful:', response.data)
+      } catch (error) {
+        console.error('Error deleting menu:', error)
+      }
+    }
+    const Addmenu = ()=>{
+      navigate('/addmenu/0')
+    }
     useEffect(() => {
         const getMenuData = async() => {
         try {
             const response = await api.getMenu()
             setMenu(response.menu)
-            setOrderList(response.menu)
         } catch (error) {
             console.error('Error fetching menu:', error)
         }
         }
         getMenuData()
     },[setMenu])
-    // const images = [
-    //   { id: 1, src: 'https://p.sda1.dev/15/c17f728d68f4a3fe687d615d8dd0d03e/image2.jpg', alt: 'Image 1', name: 'Cookie Sandwich', ingredients: 'Shortbread, chocolate turtle cookies, and red velvet.', price: 100 },
-    //   { id: 2, src: 'image2.jpg', alt: 'Image 2', name: 'Combo Burger', ingredients: 'Shortbread, chocolate turtle cookies, and red velvet.', price: 100 },
-    //   { id: 3, src: 'image3.jpg', alt: 'Image 3', name: 'Combo Sandwich', ingredients: 'Shortbread, chocolate turtle cookies, and red velvet.', price: 100 }
-    // ];
-    const buttonStyle = {
-      borderRadius: '10px',
-      backgroundColor: 'orange',
-      padding: '10px',
-      width: '100%', // Set the width to 100% for equal sizes
-    };
     return (
-        <div style={{position: 'relative', minHeight: '100vh'}}>
-          <em>
-            <strong>
-              <h1>Menu</h1>
-            </strong>
-          </em>
-  
-          {menuList.map((image, index) => (
-              <div key={index} className="menu-item" style={{display: 'flex', alignItems: 'center'}}>
-                <img
-                    src={image.src}
-                    title={image.name}
-                    onTouchStart={() => alert(image.name)}
-                    style={{width: '200px', marginRight: '10px', borderRadius: '20px'}}
-                />
-                <div>
-                  <p>
-                    <em>
-                      <strong>{image.name}</strong>
-                    </em>
-                  </p>
-                  <p style={{maxWidth: '120px' /* Set your desired maximum width here */}}>
-                    {image.ingredients}
-                  </p>
-                  <p>
-                    {image.price.toFixed(2)}kr<br/>
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-  
-                    </div>
-                  </p>
-                </div>
+        <div>
+        <List header={ <span style={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black', fontSize: '20px' }}>Menu</span>} style={{ width: '100%' , "--header-font-size":"20px", "--padding-right":"30px"}} mode='card' >
+        {menuList.map(menuList => (
+          <List.Item
+            key={menuList.id}
+            prefix={
+              <Image
+              src={menuList.src}
+              style={{ borderRadius: 20 }}
+              fit='cover'
+              width={80}
+              height={80}
+              />
+            }
+            description={menuList.description} 
+            extra = {
+              <div style={{ textAlign: 'right' }}>
+              <div>{`${menuList.price}kr`}</div>
+              <div>
+              <Button color='warning' size='small' style={{ width: '100%', display: 'block', marginBottom: '5px' }} onClick={() => ChangeMenu(menuList.id)}>Change</Button>
+            <Button color='danger' size='small' style={{ width: '100%', display: 'block', marginBottom: '5px' }} onClick={() => DeleteMenu(menuList.id)}>Delete</Button>
               </div>
-          ))}
+            </div>
+            }
+          >
+            {menuList.name}
+          </List.Item>
+      ))}
+    </List>
   
-  
+       
           <div style={{ marginTop: '20px', position: 'absolute', bottom: '60px', left: '20px' }}>
-            <button style={buttonStyle}>
-              Save
-            </button>
-          </div>
-  
-          <div style={{ marginTop: '20px', position: 'absolute', bottom: '60px', right: '20px' }}>
-            <button style={buttonStyle}>
-              Change
-            </button>
+            <Button color='warning' size='small' onClick={Addmenu}>Add</Button>
           </div>
         </div>
     );
   };
   
-  export default ResMenu;
+  export default ResMenu

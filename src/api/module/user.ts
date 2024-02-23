@@ -9,5 +9,5 @@ interface LoginData {
  * 登录
  */
 export const login = (data: LoginData) => {
-  return post('/user/login', data)
+  return post('/api/user/login', data)
 }

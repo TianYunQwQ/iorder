@@ -15,6 +15,7 @@ import Detail from '@/components/Detail'
 import LayoutRes from '@/views/LayoutRes'
 import ResOrder from '@/views/resOrderList'
 import ResMenu from '@/views/restaurantMenu'
+import AddMenu from '@/components/AddMenu'
 
 const Router: React.FC = React.memo(() => {
   const { token } = useStore();
@@ -123,6 +124,11 @@ const Router: React.FC = React.memo(() => {
     {
       path: 'resorder',
       element:<ResOrder />
+    },
+
+    {
+      path: 'addmenu/:id',
+      element:<AddMenu/>
     }
 
   ])

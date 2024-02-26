@@ -30,6 +30,26 @@
 
 ```
 react-mobile
+<<<<<<< HEAD
+=======
+├─ .cz-config.js
+├─ .env.development
+├─ .env.production
+├─ .env.test
+├─ .eslintrc.cjs
+├─ .github
+│  └─ workflows
+│     └─ static.yml
+├─ .gitignore
+├─ .husky
+│  ├─ commit-msg
+│  ├─ pre-commit
+│  └─ _
+│     ├─ .gitignore
+│     └─ husky.sh
+├─ .prettierrc.js
+├─ commitlint.config.js
+>>>>>>> 8786d827ddffb6668f6cb9b978f47f9c407b9010
 ├─ index.html
 ├─ mock
 │  └─ ...

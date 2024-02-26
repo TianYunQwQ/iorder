@@ -111,10 +111,6 @@ const Router: React.FC = React.memo(() => {
       element:<CreateAccount />
     },
 
-    {
-      path: 'Detail',
-      element:<Detail />
-    },
 
     {
       path: 'resmenu',

@@ -1,4 +1,4 @@
-import { User, History, HistoryStore, Menu, MenuStore, OrderStore, Orderlist } from 'types/index'
+import { User, History, HistoryStore, Menu, MenuStore, OrderStore, Orderlist, Userinfo, UserStore, ShopStore, Shop } from 'types/index'
 import { create } from 'zustand'
 
 export const useStore = create<{
@@ -61,4 +61,21 @@ export const useMenuStore = create<MenuStore>((set) => ({
 export const useOrderList = create<OrderStore>((set) => ({
   orderList:[],
   setOrderList:(store:Orderlist[]) => set({orderList:store})
+}))
+
+export const useUserStore = create<UserStore>((set) => ({
+  userinfo: {
+      username: '',
+      password: '',
+      email:'',
+      telephone:'',
+      token:'',
+      category: 1
+  },
+  setUserinfo: (newInfo) => set((state) => ({ userinfo: { ...state.userinfo, ...newInfo } })),
+}));
+
+export const useShopStore = create<ShopStore>((set) => ({
+  ShopList:[],
+  setShop:(store:Shop[]) => set({ShopList:store})
 }))

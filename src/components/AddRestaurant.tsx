@@ -1,35 +1,35 @@
-
-import { Form, Input, Button, Checkbox } from "antd-mobile";
-import { postMenu } from "@/api/module/menu";
+import { Form, Input, Button } from "antd-mobile";
 import { ChangeEvent, useState } from "react";
-import { Menu } from "types/index";
-import storage from "@/utils/storage";
+import { Shop } from "types/index";
+import { postRes } from "@/api/module/restaurant";
+import storage from '@/utils/storage'
 import { useNavigate } from "react-router-dom";
 
-
-export default () => {
+function AddRestaurant() {
   const [form] = Form.useForm();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const navigate = useNavigate()
   const onSubmit = async () => {
     try {
-      const values:Menu = form.getFieldsValue();
-      values.vegan = !!values.vegan;
+      const values:Shop = form.getFieldsValue();
+      values.username = storage.getItem('username')
+      console.log(values.username)
       const formData = new FormData(); 
       formData.append('image', imageFile!); 
       Object.entries(values).forEach(([key, value]) => { 
         formData.append(key, value);
       });
-      formData.append('username',storage.getItem('username'))
-      const response = await postMenu(formData)
+      const response = await postRes(formData)
+      storage.clearItem('token')
+      navigate('/login')
       console.log("Upload successful:", response.data);
-      navigate(-1)
+      
     } catch (error) {
       console.error("Error uploading:", error);
     }
   };
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; // 使用可选链操作符
+    const file = e.target.files?.[0]; 
     if (file) {
       setImageFile(file);
     }
@@ -44,34 +44,19 @@ export default () => {
           </Button>
         }
       >
-        <Form.Header>Menu</Form.Header>
+        <Form.Header ><span style={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black', fontSize: '20px' }}>My Restaurant</span></Form.Header>
     
         <Form.Item name="imageFile" label="Image" required>
           <input type="file" accept="image/*" onChange={handleImageChange} />
         </Form.Item>
-        {/* <Form.Item name="image" label="Image" required>
-          <ImageUploader
-            value={fileList}
-            onChange={setFileList} 
-            upload={function (file: File): Promise<ImageUploadItem> {
-            throw new Error("Function not implemented.");
-            }}
-            disableUpload            
-          />
-        </Form.Item> */}
-        <Form.Item name="dish_name" label="name" required>
+        <Form.Item name="shop_name" label="name" required>
           <Input placeholder="Enter the name" />
-        </Form.Item>
-        <Form.Item name="price" label="price" required>
-          <Input type="number" placeholder="Enter the price" />
         </Form.Item>
         <Form.Item name="description" label="description">
           <Input placeholder="Enter the description" />
-        </Form.Item>
-        <Form.Item name="vegan" label="veganChoose" required>
-          <Checkbox>For vegan?</Checkbox>
         </Form.Item>
       </Form>
     </>
   );
 };
+export default AddRestaurant

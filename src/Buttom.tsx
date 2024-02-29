@@ -22,8 +22,8 @@ const Bottom: FC = () => {
       icon: <AppOutline />,
     },
     {
-      key: '/todo',
-      title: 'Menu',
+      key: '/orderlist',
+      title: 'Order',
       icon: <UnorderedListOutline />,
     },
     {

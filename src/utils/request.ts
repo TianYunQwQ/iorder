@@ -18,7 +18,7 @@ const NETWORK_ERROR = '网络请求异常，请稍后重试'
 const service = axios.create({
   baseURL: config.baseUrl,
 
-  timeout: 20000, // 请求超时时间 20s
+  timeout: 3000, // 请求超时时间 3s
 })
 
 // 请求拦截
@@ -53,6 +53,7 @@ service.interceptors.response.use((res: AxiosResponse) => {
     return Promise.reject(msg || NETWORK_ERROR)
   }
 })
+
 
 interface Options extends AxiosRequestConfig {}
 

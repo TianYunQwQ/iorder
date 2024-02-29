@@ -1,10 +1,11 @@
 export interface Menu {
-    id:number
-    src: string
-    name: string
+    image: string
+    dish_name: string
     description: string
     price: number
-    vegen: boolean
+    vegan: boolean
+    shop_index:number
+    dish_index: number
 }
 
 export interface MenuStore {

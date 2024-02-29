@@ -1,45 +1,46 @@
 import { useEffect } from 'react'
 import api from '@/api'
-import {useHistoryStore} from '@/store'
+import {useHistoryStore, useShopStore} from '@/store'
 import { Image, List } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom'
 
 function Home() {
   const navigate = useNavigate()
-  const Click = () => {
-    navigate('/todo')
+  const Click = (shop_index:number) => {
+    navigate(`/menu/${shop_index}`)
   }
-  const {historyList, setHistory} = useHistoryStore()
+  const {ShopList, setShop} = useShopStore()
   useEffect(() => {
     const getData = async() => {
       try {
-        const response = await api.getHistory();
-        setHistory(response.list);
+        const response = await api.getShop(); 
+        console.log(response)
+        setShop(response.list);
       } catch (error) {
         console.error('Error fetching history:', error)
       }
     }
     getData()
-  }, [setHistory])
+  }, [setShop])
 
   return (
-    <List header='History' style={{ width: '100%' }} mode='card'>
-    {historyList.map(users => (
+    <List header={ <span style={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black', fontSize: '20px' }}>Restaurant</span>} style={{ width: '100%' }} mode='card'>
+    {ShopList.map(restaurant => (
       <List.Item
-        key={users.name}
+        key={restaurant.shop_index}
         prefix={
           <Image
-            src={users.logo}
+            src={"http://51.20.236.228:8000/"+restaurant.image}
             style={{ borderRadius: 20 }}
             fit='cover'
             width={80}
             height={80}
           />
         }
-        description={users.orderTime}
-        onClick={Click}
+        description={restaurant.description}
+        onClick={() => Click(restaurant.shop_index)}
       >
-        {users.name}
+        {restaurant.shop_name}
       </List.Item>
     ))}
   </List>

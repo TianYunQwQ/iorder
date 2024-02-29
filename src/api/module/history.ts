@@ -1,7 +1,7 @@
 import request from '@/utils/request.js';
 
-export const getHistory = () =>
+export const getShop = () =>
   request({
-    url: 'https://yapi.pro/mock/252699/api/history1',
+    url: 'http://51.20.236.228:8000/shop',
     method: 'get'
   });

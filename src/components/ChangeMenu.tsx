@@ -1,19 +1,20 @@
-
 import { Form, Input, Button, Checkbox } from "antd-mobile";
-import { postMenu } from "@/api/module/menu";
+import { changeMenu } from "@/api/module/menu";
 import { ChangeEvent, useState } from "react";
 import { Menu } from "types/index";
 import storage from "@/utils/storage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export default () => {
   const [form] = Form.useForm();
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const {dish_index} = useParams()
   const navigate = useNavigate()
   const onSubmit = async () => {
     try {
       const values:Menu = form.getFieldsValue();
+      values.dish_index = parseInt(dish_index??'')
       values.vegan = !!values.vegan;
       const formData = new FormData(); 
       formData.append('image', imageFile!); 
@@ -21,7 +22,7 @@ export default () => {
         formData.append(key, value);
       });
       formData.append('username',storage.getItem('username'))
-      const response = await postMenu(formData)
+      const response = await changeMenu(formData)
       console.log("Upload successful:", response.data);
       navigate(-1)
     } catch (error) {
@@ -49,16 +50,6 @@ export default () => {
         <Form.Item name="imageFile" label="Image" required>
           <input type="file" accept="image/*" onChange={handleImageChange} />
         </Form.Item>
-        {/* <Form.Item name="image" label="Image" required>
-          <ImageUploader
-            value={fileList}
-            onChange={setFileList} 
-            upload={function (file: File): Promise<ImageUploadItem> {
-            throw new Error("Function not implemented.");
-            }}
-            disableUpload            
-          />
-        </Form.Item> */}
         <Form.Item name="dish_name" label="name" required>
           <Input placeholder="Enter the name" />
         </Form.Item>

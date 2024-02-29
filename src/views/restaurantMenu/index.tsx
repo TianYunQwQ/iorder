@@ -3,12 +3,13 @@ import { useMenuStore } from "@/store";
 import { useEffect } from "react";
 import { Image, List, Button } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom'
+import storage from "@/utils/storage";
 
 const ResMenu: React.FC = () => {
     const {menuList, setMenu} = useMenuStore()
     const navigate = useNavigate()
-    const ChangeMenu = (id:number) => {
-      navigate(`/addmenu/${id}`)
+    const ChangeMenu = (dish_index:number) => {
+      navigate(`/changemenu/${dish_index}`)
     }
     const DeleteMenu = async (id: number) => {
       try {
@@ -19,13 +20,13 @@ const ResMenu: React.FC = () => {
       }
     }
     const Addmenu = ()=>{
-      navigate('/addmenu/0')
+      navigate(`/addmenu/${storage.getItem('username')}`)
     }
     useEffect(() => {
         const getMenuData = async() => {
         try {
-            const response = await api.getMenu()
-            setMenu(response.menu)
+            const response = await api.getResMenu(storage.getItem('username'))
+            setMenu(response.data.list)
         } catch (error) {
             console.error('Error fetching menu:', error)
         }
@@ -37,10 +38,10 @@ const ResMenu: React.FC = () => {
         <List header={ <span style={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black', fontSize: '20px' }}>Menu</span>} style={{ width: '100%' , "--header-font-size":"20px", "--padding-right":"30px"}} mode='card' >
         {menuList.map(menuList => (
           <List.Item
-            key={menuList.id}
+            key={menuList.dish_name}
             prefix={
               <Image
-              src={menuList.src}
+              src={'http://51.20.236.228:8000/'+ menuList.image}
               style={{ borderRadius: 20 }}
               fit='cover'
               width={80}
@@ -52,13 +53,13 @@ const ResMenu: React.FC = () => {
               <div style={{ textAlign: 'right' }}>
               <div>{`${menuList.price}kr`}</div>
               <div>
-              <Button color='warning' size='small' style={{ width: '100%', display: 'block', marginBottom: '5px' }} onClick={() => ChangeMenu(menuList.id)}>Change</Button>
-            <Button color='danger' size='small' style={{ width: '100%', display: 'block', marginBottom: '5px' }} onClick={() => DeleteMenu(menuList.id)}>Delete</Button>
+              <Button color='warning' size='small' style={{ width: '100%', display: 'block', marginBottom: '5px' }} onClick={() => ChangeMenu(menuList.dish_index)}>Change</Button>
+            <Button color='danger' size='small' style={{ width: '100%', display: 'block', marginBottom: '5px' }} onClick={() => DeleteMenu(menuList.dish_index)}>Delete</Button>
               </div>
             </div>
             }
           >
-            {menuList.name}
+            {menuList.dish_name}
           </List.Item>
       ))}
     </List>

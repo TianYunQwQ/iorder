@@ -3,13 +3,14 @@ import { List } from 'antd-mobile';
 
 function Detail({ totlePrice }: { totlePrice: number }) {
     const {orderList} = useOrderList()
+    console.log(orderList)
 
     return (
     <>
     <List mode='card'>
         {orderList.map(orderItem => (
             <List.Item
-                key={orderItem.id}
+                key={orderItem.dish_index}
                     description={orderItem.note}
                     extra={<div style={{ textAlign: 'right' }}>
                         <div>{`Quantity: ${orderItem.quantity}`}</div>

@@ -1,7 +1,7 @@
 import { Button, Form, Input, Space } from 'antd-mobile'
 import api from '@/api'
 import storage from '@/utils/storage'
-import { useStore } from '@/store'
+import { useStore, useUserStore } from '@/store'
 import { User } from 'types/index'
 import { useNavigate } from 'react-router-dom'
 import './login.scss'
@@ -9,32 +9,30 @@ function Login() {
   const [form] = Form.useForm()
 
   const { updateUserInfo, updateToken, token } = useStore()
+  const { userinfo, setUserinfo } = useUserStore()
 
   const navigate = useNavigate(); 
   const onSubmit = async () => {
     try {
       const values = form.getFieldsValue();
+      console.log(values)
       const result = await api.login(values);
       storage.setItem('token', result.token);
-      updateUserInfo(result);
-      updateToken(result.token);
-      navigate('/home'); 
+      storage.setItem('username', result.username);
+      console.log(result)
+      setUserinfo(result);
+      if (result.category === 1) {
+        navigate('/home');
+      } else if (result.category === 2) {
+        navigate('/restaurant/resmenu');
+      } else {
+        console.error('Invalid category:', result.category);
+      }
     } catch (error) {
       console.error('Login fail!', error);
     }
   };
-  const onSubmitMerchant = async () => {
-    try {
-      const values = form.getFieldsValue();
-      const result = await api.login(values);
-      storage.setItem('token', result.token);
-      updateUserInfo(result);
-      updateToken(result.token);
-      navigate('/restaurant/resorder'); 
-    } catch (error) {
-      console.error('Login fail!', error);
-    }
-  };
+
 
   const onLogout = () => {
     storage.clearItem('token')
@@ -48,7 +46,7 @@ function Login() {
 
   return (
     <>
-      {token ? (
+      {storage.getItem('token') ? (
         <>
           <Space direction="vertical">
             {/* <div> 已登录</div> */}
@@ -68,8 +66,8 @@ function Login() {
         <Form
           form={form}
           initialValues={{
-            userName: 'admin',
-            userPwd: '123456',
+            username: 'admin',
+            password: '123456',
           }}
           layout="horizontal"
           mode='card'
@@ -84,34 +82,21 @@ function Login() {
               size="small"
               style={{ margin: '20px 0'}}
             >
-              Login as customer
-            </Button><Button
-              block
-              loading="auto"
-              type="submit"
-              color="default"
-              shape='rounded'
-              onClick={onSubmitMerchant}
-              size="small"
-              fill='outline'
-              style={{ margin: '8px 0', '--text-color':'#ffffff'}}
-
-            >
-              Login as merchant
-              </Button></>
+              Login
+            </Button></>
           }
         >
           <Form.Header />
           <Form.Item
             // label="Username"
-            name="userName"
+            name="username"
             
           >
             <Input placeholder="please enter username" clearable />
           </Form.Item>
           <Form.Item
             // label="password"
-            name="userPwd"
+            name="password"
             
           >
             <Input placeholder="please enter password" clearable type="password" />

@@ -1,12 +1,13 @@
 export interface Orderlist {
-    id:number
+    dish_index:number
     name:string
     tableNum:string
     note:string
     quantity:number
-    key:string
     state:string
     price:number
+    username:string
+    shop_index:number
   }
   export interface OrderStore {
     orderList: Orderlist[]

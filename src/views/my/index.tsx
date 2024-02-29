@@ -1,36 +1,37 @@
 import { Button, Form, Input, Space, List, Switch } from 'antd-mobile'
 import api from '@/api'
 import storage from '@/utils/storage'
-import { useStore } from '@/store'
-import { User } from 'types/index'
+import { useStore, useUserStore } from '@/store'
+import { User, Userinfo } from 'types/index'
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react'
 // import Profile from '@/components/ProfileEdit'
 
 function PersonalCenter() {
   const [form] = Form.useForm()
   const navigate = useNavigate()
-  const { updateUserInfo, updateToken, token, userInfo } = useStore()
+  const { userinfo, setUserinfo } = useUserStore()
+  // useEffect(() => {
+  //   storage.clearItem('token');
+  // }, []);
+
 
   const onSubmit = async () => {
     try {
       const values = form.getFieldsValue();
+      console.log(values)
       const result = await api.login(values);
       storage.setItem('token', result.token);
-      updateUserInfo(result);
-      updateToken(result.token);
-      navigate('/me'); 
-    } catch (error) {
-      console.error('Login fail!', error);
-    }
-  };
-  const onSubmitMerchant = async () => {
-    try {
-      const values = form.getFieldsValue();
-      const result = await api.login(values);
-      storage.setItem('token', result.token);
-      updateUserInfo(result);
-      updateToken(result.token);
-      navigate('/restaurant/me'); 
+      storage.setItem('username', result.username);
+      console.log(result)
+      setUserinfo(result);
+      if (result.category === 1) {
+        navigate('/me');
+      } else if (result.category === 2) {
+        navigate('/restaurant/me');
+      } else {
+        console.error('Invalid category:', result.category);
+      }
     } catch (error) {
       console.error('Login fail!', error);
     }
@@ -39,8 +40,8 @@ function PersonalCenter() {
   // 退出
   const onLogout = () => {
     storage.clearItem('token')
-    updateUserInfo({} as User)
-    updateToken('')
+    storage.clearItem('username')
+    setUserinfo({} as Userinfo)
   }
 
   const editInfo = () => {
@@ -52,14 +53,14 @@ function PersonalCenter() {
 
   return (
     <>
-      {token ? (
+      {storage.getItem('token') ? (
         <>
           <Space direction="vertical" style={{ width: '100%' }}>
             {/* <Profile></Profile> */}
             <List header="Profile" >
-              <List.Item title='FULL NAME'>{userInfo.userName}</List.Item>
-              <List.Item title='EMAIL ADDRESS'>{userInfo.userEmail}</List.Item>
-              <List.Item title='PHONE NUMBER'>{userInfo.userId}</List.Item>
+              <List.Item title='USERNAME'>{userinfo.username}</List.Item>
+              <List.Item title='EMAIL ADDRESS'>{userinfo.email}</List.Item>
+              <List.Item title='PHONE NUMBER'>{userinfo.telephone}</List.Item>
               <List.Item title='PASSWARD' 
               extra={<Button color='warning' fill='none' onClick={changePsw}>
                 Change
@@ -92,8 +93,8 @@ function PersonalCenter() {
         <Form
           form={form}
           initialValues={{
-            userName: 'admin',
-            userPwd: '123456',
+            username: 'admin',
+            password: '123456',
           }}
           layout="horizontal"
           mode='card'
@@ -108,34 +109,21 @@ function PersonalCenter() {
               size="small"
               style={{ margin: '20px 0'}}
             >
-              Login as customer
-            </Button><Button
-              block
-              loading="auto"
-              type="submit"
-              color="default"
-              shape='rounded'
-              onClick={onSubmitMerchant}
-              size="small"
-              fill='outline'
-              style={{ margin: '8px 0'}}
-
-            >
-              Login as merchant
-              </Button></>
+              Login
+            </Button></>
           }
         >
           <Form.Header />
           <Form.Item
             // label="Username"
-            name="userName"
+            name="username"
             
           >
             <Input placeholder="please enter username" clearable />
           </Form.Item>
           <Form.Item
             // label="password"
-            name="userPwd"
+            name="password"
             
           >
             <Input placeholder="please enter password" clearable type="password" />

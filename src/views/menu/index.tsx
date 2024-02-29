@@ -3,19 +3,24 @@ import  { useEffect, useRef, useState } from 'react'
 import api from '@/api'
 
 import { useMenuStore, useOrderList} from "@/store"
-import { List, Image, Button, Dialog, TextArea, TextAreaRef } from 'antd-mobile';
+import { List, Image, Button, Dialog, TextArea, TextAreaRef, Stepper } from 'antd-mobile';
 import Detail from '@/components/Detail';
-function Todo() {
+import { Orderlist } from 'types/index';
+import { useParams } from 'react-router-dom';
+import storage from '@/utils/storage';
+function Menu() {
   const {menuList, setMenu} = useMenuStore()
   const {setOrderList} = useOrderList()
   const [quantities, setQuantities] = useState<{ [id: number]: number }>({});
   const [notes, setNotes] = useState<{[id: number]: string}>({})
+  const [tableNum, settableNum] = useState(0)
+  const {shop_index} = useParams()
   const textAreaRef = useRef<TextAreaRef>(null);
   useEffect(() => {
     const getMenuData = async() => {
       try {
-        const response = await api.getMenu()
-        setMenu(response.menu)
+        const response = await api.getMenu(parseInt(shop_index??''))
+        setMenu(response.list)
       } catch (error) {
         console.error('Error fetching menu:', error)
       }
@@ -68,7 +73,7 @@ function Todo() {
     let totalPrice = 0;
     for (const id in quantities) {
       const quantity = quantities[id];
-      const menuItem = menuList.find(item => item.id === parseInt(id));
+      const menuItem = menuList.find(item => item.dish_index === parseInt(id));
       if (menuItem) {
         totalPrice += menuItem.price * quantity;
       }
@@ -76,21 +81,21 @@ function Todo() {
     return totalPrice;
   };
 
-  // const isOrderDisabled = quantities.every(qty => qty === 0);
   const PostOrder = ()=>{
-    const newOrderList = [];
+    const newOrderList:Orderlist[] = [];
     for (const menuItem of menuList) {
-      const quantity = quantities[menuItem.id];
+      const quantity = quantities[menuItem.shop_index];
       if (quantity !== undefined && quantity !== 0) {
         const order = {
-          id: menuItem.id,
+          dish_index: menuItem.dish_index,
           price: menuItem.price,
-          quantity: quantity,
-          note: notes[menuItem.id] || '',
-          name: menuItem.name,  
-          tableNum: "00", 
-          key: "",  
+          quantity: quantities[menuItem.dish_index],
+          note: notes[menuItem.dish_index] || '',
+          name: menuItem.dish_name,  
+          tableNum: tableNum.toString(), 
           state: "Processing",
+          username: storage.getItem('username'),
+          shop_index: menuItem.shop_index
         };
         newOrderList.push(order);
       }
@@ -109,6 +114,13 @@ function Todo() {
       closeOnMaskClick: true,
       cancelText: "Cancel",
       confirmText: "Submit",
+      onConfirm: async () => {
+        try {
+          await api.postOrderlist(newOrderList);
+        } catch (error) {
+          console.error('Error post order:', error);
+        }
+      }
     })
   }
   return (
@@ -116,10 +128,10 @@ function Todo() {
         <List header={ <span style={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black', fontSize: '20px' }}>Menu</span>} style={{ width: '100%' , "--header-font-size":"20px", "--padding-right":"30px"}} mode='card' >
         {menuList.map(menuList => (
           <List.Item
-            key={menuList.id}
+            key={menuList.dish_index}
             prefix={
               <Image
-              src={menuList.src}
+              src={'http://51.20.236.228:8000'+menuList.image}
               style={{ borderRadius: 20 }}
               fit='cover'
               width={80}
@@ -132,39 +144,48 @@ function Todo() {
               <div>{`${menuList.price}kr`}</div>
               <div>
                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <button onClick={() => handleDecrement(menuList.id)} style={{ marginRight: '3px' }}>-</button>
+                    <button onClick={() => handleDecrement(menuList.dish_index)} style={{ marginRight: '3px' }}>-</button>
                      <input
                          type="number"
-                         value={quantities[menuList.id] !== undefined ? quantities[menuList.id] : 0}
+                         value={quantities[menuList.dish_index] !== undefined ? quantities[menuList.dish_index] : 0}
                          readOnly
                          style={{ width: '20px', textAlign: 'center', marginRight: '3px' }}
                      />
-                     <button onClick={() => handleIncrement(menuList.id)}>+</button>
+                     <button onClick={() => handleIncrement(menuList.dish_index)}>+</button>
                    </div>
               </div>
               <div>
-                {quantities[menuList.id] !== undefined && quantities[menuList.id] !== 0 && (
+                {quantities[menuList.dish_index] !== undefined && quantities[menuList.dish_index] !== 0 && (
                   <div>
-                    <Button color='warning' size='small' style={{ width: '100%', display: 'block', marginTop: '5px' }} onClick={() => handleNote(menuList.id)}>Note</Button>
+                    <Button color='warning' size='small' style={{ width: '100%', display: 'block', marginTop: '5px' }} onClick={() => handleNote(menuList.dish_index)}>Note</Button>
                   </div>
                 )}
               </div>
             </div>
             }
           >
-            {menuList.name}
+            {menuList.dish_name}
           </List.Item>
       ))}
     </List>
   
-      <div style={{ marginTop: '20px', position: 'absolute', bottom: '90px', left: '20px' }}>
+      <div style={{ marginTop: '20px', position: 'absolute', bottom: '70px', left: '20px' }}>
         <strong>Total : {getTotalPrice().toFixed(2)} kr</strong>
       </div>
       <div style={{ marginTop: '20px', position: 'absolute', bottom: '70px', right: '20px' }}>
         <Button color='warning' size='small' onClick={PostOrder}>iOrder</Button>
       </div>
+      <div  style={{ marginLeft: '20px' }}>
+      <strong>Table Number:</strong>
+      <Stepper
+          defaultValue={tableNum}
+          onChange={value => {
+            settableNum(value)
+          }}
+        />
+      </div>
     </div>
   );
 }
 
-export default Todo
+export default Menu

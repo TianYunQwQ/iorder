@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRoutes, Navigate } from 'react-router-dom'
 import Home from '@/views/home'
-import Todo from '@/views/todo'
-import Message from '@/views/message'
 import PersonalCenter from '@/views/my'
 import Layout from '@/views/Layout'
 import Login from '@/views/login/Login'
@@ -11,11 +9,14 @@ import Entrance from '@/views/entrance'
 import Profile from '@/components/ProfileEdit'
 import Pwdchange from '@/components/pwdchange'
 import CreateAccount from '@/components/CreateAccount'
-import Detail from '@/components/Detail'
 import LayoutRes from '@/views/LayoutRes'
 import ResOrder from '@/views/resOrderList'
 import ResMenu from '@/views/restaurantMenu'
 import AddMenu from '@/components/AddMenu'
+import Menu from '@/views/menu'
+import Orders from '@/views/orderlist'
+import AddRestaurant from '@/components/AddRestaurant'
+import ChangeMenu from '@/components/ChangeMenu'
 
 const Router: React.FC = React.memo(() => {
   const { token } = useStore();
@@ -46,12 +47,12 @@ const Router: React.FC = React.memo(() => {
           element: <Home />,
         },
         {
-          path: 'todo',
-          element: <Todo />,
+          path: 'menu/:shop_index',
+          element: <Menu />,
         },
         {
-          path: 'message',
-          element: <Message />,
+          path: 'orderlist',
+          element: <Orders />,
         },
         {
           path: 'me',
@@ -123,8 +124,18 @@ const Router: React.FC = React.memo(() => {
     },
 
     {
-      path: 'addmenu/:id',
+      path: 'addmenu/:username',
       element:<AddMenu/>
+    },
+
+    {
+      path: 'changemenu/:dish_index',
+      element:<ChangeMenu/>
+    },
+
+    {
+      path: 'addrestaurant',
+      element:<AddRestaurant/>
     }
 
   ])

@@ -1,14 +1,28 @@
+import api from "@/api";
+import storage from "@/utils/storage";
 import { AutoCenter, Button } from "antd-mobile"
 import { Input,Form,Space,Radio } from "antd-mobile"
 import { useNavigate } from "react-router-dom";
+import { Userinfo } from "types/index";
 function Profile() {
-  // const goon = () => {
-  //   window.location.href='http://localhost:3000/pwdchange';
-  // };
-
   const navigate = useNavigate();
-  const goback = () => {
-    navigate(-1)
+  const [form] = Form.useForm()
+  
+  const goback = async () => {
+    try {
+      const values:Userinfo = form.getFieldsValue();
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      formData.append('username', storage.getItem('username'))
+
+      const response = await api.editUser(formData);
+      console.log(response);
+      navigate(-1);
+    } catch (error) {
+      console.error('Error editing user:', error);
+    }
   };
 
   return (<div>
@@ -21,20 +35,16 @@ function Profile() {
             <AutoCenter style={{ fontSize: '18px', fontFamily: 'Montserrat, sans-serif', color:'gray'}} >You can update your profile here</AutoCenter>  
           </div>
         <div>
-          <Form layout='vertical'>
-          <Form.Item label='Fullname' name='fullname'>
-            <Input placeholder='input username here' clearable />
+          <Form layout='vertical' form={form}>
+          <Form.Item label='USERNAME' name='username'>
+            <Input placeholder={storage.getItem('username')} clearable readOnly/>
           </Form.Item>
-          <Form.Item label='e-mail' name='email'>
+          <Form.Item label='EMAIL' name='email'>
             <Input placeholder='input e-mail address here' clearable type='e-mail' />
           </Form.Item>
-          <Form.Item label='phonenumber' name='phonenumber'>
+          <Form.Item label='PHONE NUMBER' name='telephone'>
             <Input placeholder='your number here' clearable type='phonenumber' />
           </Form.Item>
-          {/* <Form.Item label=' password' name='password' extra={<Button color="warning" fill="none" onClick={goon}>change</Button>}>
-            <Input placeholder='password here' clearable type='password' readOnly/>
-            
-          </Form.Item> */}
         </Form>
         </div>
         <caption style={{ fontSize: '18px', fontFamily: 'Montserrat, sans-serif', textAlign: 'center'}}><AutoCenter style={{ whiteSpace: 'nowrap' }}>Language</AutoCenter></caption>

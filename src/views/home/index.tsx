@@ -1,11 +1,14 @@
 import { useEffect } from 'react'
 import api from '@/api'
 import {useHistoryStore, useShopStore} from '@/store'
-import { Image, List } from 'antd-mobile'
+import { Button, Image, List } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom'
 
 function Home() {
   const navigate = useNavigate()
+  const scan = ()=>{
+    navigate('/qrcode')
+  }
   const Click = (shop_index:number) => {
     navigate(`/menu/${shop_index}`)
   }
@@ -24,26 +27,25 @@ function Home() {
   }, [setShop])
 
   return (
-    <List header={ <span style={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black', fontSize: '20px' }}>Restaurant</span>} style={{ width: '100%' }} mode='card'>
-    {ShopList.map(restaurant => (
-      <List.Item
-        key={restaurant.shop_index}
-        prefix={
-          <Image
-            src={"http://51.20.236.228:8000/"+restaurant.image}
+    <><List header={<span style={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black', fontSize: '20px' }}>Restaurant</span>} style={{ width: '100%' }} mode='card'>
+      {ShopList.map(restaurant => (
+        <List.Item
+          key={restaurant.shop_index}
+          prefix={<Image
+            src={"http://51.20.236.228:8000/" + restaurant.image}
             style={{ borderRadius: 20 }}
             fit='cover'
             width={80}
-            height={80}
-          />
-        }
-        description={restaurant.description}
-        onClick={() => Click(restaurant.shop_index)}
-      >
-        {restaurant.shop_name}
-      </List.Item>
-    ))}
-  </List>
+            height={80} />}
+          description={restaurant.description}
+          onClick={() => Click(restaurant.shop_index)}
+        >
+          {restaurant.shop_name}
+        </List.Item>
+      ))}
+    </List><div style={{ marginTop: '20px', position: 'absolute', bottom: '70px', right: '20px' }}>
+        <Button color='warning' size='small' onClick={scan}>Scan QR</Button>
+      </div></>
   )
 }
 

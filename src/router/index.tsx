@@ -17,6 +17,7 @@ import Menu from '@/views/menu'
 import Orders from '@/views/orderlist'
 import AddRestaurant from '@/components/AddRestaurant'
 import ChangeMenu from '@/components/ChangeMenu'
+import Qrcode from '@/views/Qrcode'
 
 const Router: React.FC = React.memo(() => {
   const { token } = useStore();
@@ -136,8 +137,12 @@ const Router: React.FC = React.memo(() => {
     {
       path: 'addrestaurant',
       element:<AddRestaurant/>
-    }
+    },
 
+    {
+      path:'qrcode',
+      element:<Qrcode/>
+    }
   ])
 
   return element

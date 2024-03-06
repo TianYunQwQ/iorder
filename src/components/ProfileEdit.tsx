@@ -47,7 +47,7 @@ function Profile() {
           </Form.Item>
         </Form>
         </div>
-        <caption style={{ fontSize: '18px', fontFamily: 'Montserrat, sans-serif', textAlign: 'center'}}><AutoCenter style={{ whiteSpace: 'nowrap' }}>Language</AutoCenter></caption>
+        {/* <caption style={{ fontSize: '18px', fontFamily: 'Montserrat, sans-serif', textAlign: 'center'}}><AutoCenter style={{ whiteSpace: 'nowrap' }}>Language</AutoCenter></caption>
         <div>
         <Radio.Group defaultValue='1'>
           <Space direction='vertical'>
@@ -55,7 +55,7 @@ function Profile() {
             <Radio value='2' style={{ fontSize: '14px', fontFamily: 'Montserrat, sans-serif'}}>Swedish</Radio>
           </Space>
         </Radio.Group>
-    </div>
+    </div> */}
   <Button className="button" color='warning' size='middle' onClick={goback}>
           Save
         </Button>

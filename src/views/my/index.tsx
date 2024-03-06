@@ -11,10 +11,6 @@ function PersonalCenter() {
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const { userinfo, setUserinfo } = useUserStore()
-  // useEffect(() => {
-  //   storage.clearItem('token');
-  // }, []);
-
 
   const onSubmit = async () => {
     try {
@@ -65,9 +61,9 @@ function PersonalCenter() {
               extra={<Button color='warning' fill='none' onClick={changePsw}>
                 Change
                 </Button>}>********</List.Item>
-              <List.Item title='LANGUAGE'>
+              {/* <List.Item title='LANGUAGE'>
               <Switch uncheckedText='ENGLISH' checkedText='SVENSKA' />
-              </List.Item>
+              </List.Item> */}
             </List>
             <Button 
               color='warning' 

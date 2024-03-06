@@ -3,17 +3,21 @@ import  { useEffect, useRef, useState } from 'react'
 import api from '@/api'
 
 import { useMenuStore, useOrderList} from "@/store"
-import { List, Image, Button, Dialog, TextArea, TextAreaRef, Stepper } from 'antd-mobile';
+import { List, Image, Button, Dialog, TextArea, TextAreaRef, Stepper, Switch } from 'antd-mobile';
 import Detail from '@/components/Detail';
 import { Orderlist } from 'types/index';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import storage from '@/utils/storage';
 function Menu() {
+  const location = useLocation();
+  const locationState = location.state as { qrCodeData: string; tableNum: string };
+  const initialTableNum = locationState && locationState.tableNum ? parseInt(locationState.tableNum, 10) : 0;
+  const [showVeganOnly, setShowVeganOnly] = useState(false);
   const {menuList, setMenu} = useMenuStore()
   const {setOrderList} = useOrderList()
   const [quantities, setQuantities] = useState<{ [id: number]: number }>({});
   const [notes, setNotes] = useState<{[id: number]: string}>({})
-  const [tableNum, settableNum] = useState(0)
+  const [tableNum, settableNum] = useState(initialTableNum)
   const {shop_index} = useParams()
   const textAreaRef = useRef<TextAreaRef>(null);
   useEffect(() => {
@@ -125,8 +129,22 @@ function Menu() {
   }
   return (
       <div>
-        <List header={ <span style={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black', fontSize: '20px' }}>Menu</span>} style={{ width: '100%' , "--header-font-size":"20px", "--padding-right":"30px"}} mode='card' >
-        {menuList.map(menuList => (
+        <List header={(
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black', fontSize: '20px' }}>Menu</span>
+        <div>
+          <strong style={{ fontSize: '12px' }}>Vegan Only:</strong>
+          <Switch checked={showVeganOnly} onChange={() => setShowVeganOnly(!showVeganOnly)} />
+        </div>
+        
+      </div>
+      )} 
+      style={{ width: '100%', "--header-font-size":"20px", "--padding-right":"30px"}} 
+      mode='card'
+    > 
+        {menuList
+        .filter(menuItem => !showVeganOnly || menuItem.vegan)
+        .map(menuList => (
           <List.Item
             key={menuList.dish_index}
             prefix={
